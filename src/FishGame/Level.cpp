@@ -61,8 +61,11 @@ ImmovableCollider* Level::CreateBoundary(Vector2f pos, float size) {
 	return newRock;
 }
 Enemy* Level::CreateEnemy() {
-	Attack* attack1 = new Attack{*new Point2(200, 200), *new Point2(300, 300)};
-	Enemy* enemy = new Fisherman(*new vector<Attack*>{ attack1 });
+	Attack* attack1 = new Attack{*new Point2(200, 200), *new Point2(200, 300)};
+	Attack* attack2 = new Attack{ *new Point2(300, 200), *new Point2(300, 300) };
+	Attack* attack3 = new Attack{ *new Point2(400, 200), *new Point2(400, 300) };
+	Attack* attack4 = new Attack{ *new Point2(500, 200), *new Point2(500, 300) };
+	Enemy* enemy = new Fisherman(*new vector<Attack*>{ attack1, attack2, attack3, attack4 });
 	enemies.push_back(enemy);
 	return enemy;
 }
