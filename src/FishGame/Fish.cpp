@@ -28,13 +28,19 @@ void Fish::RandomMovement() {
 	}
 }
 
-void Fish::AlertSplash(Point2 splashPos) {
+void Fish::AlertSplash(Point2 splashPos, int splashType) {
 	Vector2f* splashPosf = new Vector2f(splashPos.x, splashPos.y);
 	Vector2f* angle = *splashPosf - pos;
 	float splashDist = Vector2f::Magnitude(*angle) * 0.0001; //adjust the magnitude to a reasonable size
 	float splashDistReciprocal = 1 / splashDist; //the reciprocal of the splash distance gets bigger the
 	//closer the splash was, so the fish gets more scared and moves more if the splash was closer
 	angle = Vector2f::Normalise(*angle);
-	ApplyForce(*angle * -0.1f * splashDistReciprocal); //move in the direction of the splash, inverted
-	//multiplied by the reciprocal of the distance so they move further if the splash was closer
+	if (splashType == 1) {
+		ApplyForce(*angle * -0.1f * splashDistReciprocal); //move in the direction of the splash, inverted
+		//multiplied by the reciprocal of the distance so they move further if the splash was closer
+	}
+	else if (splashType == 2) {
+		ApplyForce(*angle * 0.1f * splashDistReciprocal); //move in the direction of the splash, inverted
+		//multiplied by the reciprocal of the distance so they move further if the splash was closer
+	}
 }

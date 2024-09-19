@@ -13,6 +13,6 @@ public:
 	Fish(Vector2f fishPos, Point2 centrePoint);
 	void Render(shared_ptr<GraphicsEngine> pgfx) override;
 	void Update() override;
-	void AlertSplash(Point2 splashPos) override;
+	void AlertSplash(Point2 splashPos, int splashType) override;
 };
 

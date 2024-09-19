@@ -16,7 +16,11 @@ MyGame::~MyGame() {
 void MyGame::handleKeyEvents() {
 	if (eventSystem->isDown(Mouse::BTN_LEFT)) {
 		Point2 mousePos = eventSystem->getMousePos();
-		level->CreateSplash(mousePos);
+		level->CreateSplash(mousePos, 1);
+	}
+	if (eventSystem->isDown(Mouse::BTN_RIGHT)) {
+		Point2 mousePos = eventSystem->getMousePos();
+		level->CreateSplash(mousePos, 2);
 	}
 	if (eventSystem->isDown(Key::A)) {
 		mySystem->RegisterNewObject(level->SpawnFish(*(new Vector2f(350, 350))));

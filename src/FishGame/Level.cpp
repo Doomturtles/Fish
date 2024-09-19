@@ -43,11 +43,11 @@ void Level::Update() {
 		}
 	}
 }
-void Level::CreateSplash(Point2 splashPos) {
-	splashes.push_back(new Splash(splashPos));
+void Level::CreateSplash(Point2 splashPos, int splashType) {
+	splashes.push_back(new Splash(splashPos, splashType));
 	//alert creatures
 	for (Creature* c : creatures) {
-		c->AlertSplash(splashPos);
+		c->AlertSplash(splashPos, splashType);
 	}
 }
 Mover* Level::SpawnFish(Vector2f pos) {

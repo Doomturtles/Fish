@@ -20,7 +20,7 @@ public:
 	Level(shared_ptr<GraphicsEngine> pgfx, Point2 centrePoint);
 	~Level();
 	void Update();
-	void CreateSplash(Point2 splashPos);
+	void CreateSplash(Point2 splashPos, int splashType);
 	Mover* SpawnFish(Vector2f pos);
 	void Render();
 	ImmovableCollider* CreateBoundary(Vector2f pos, float size);
