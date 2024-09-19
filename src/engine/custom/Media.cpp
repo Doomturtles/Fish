@@ -16,5 +16,5 @@ void Media::LoadImage(const char* filename, const char* imagename, SDL_Renderer*
 }
 void Media::InitializeImages(SDL_Renderer* renderer) {
 	instance()._images->clear();
-	LoadImage("Fish.bmp", "Fish", renderer);
+	LoadImage("../src/FishGame/Resources/Fish.bmp", "Fish", renderer);
 }
