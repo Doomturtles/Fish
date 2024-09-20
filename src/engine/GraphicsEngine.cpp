@@ -3,7 +3,7 @@
 SDL_Renderer * GraphicsEngine::renderer = nullptr;
 
 GraphicsEngine::GraphicsEngine() : fpsAverage(0), fpsPrevious(0), fpsStart(0), fpsEnd(0), drawColor(toSDLColor(0, 0, 0, 255)) {
-	window = SDL_CreateWindow("The X-CUBE 2D Game Engine",
+	window = SDL_CreateWindow("Fish Game",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
 
@@ -264,6 +264,7 @@ void GraphicsEngine::drawText(const std::string & text, const int &x, const int 
 	SDL_DestroyTexture(textTexture);
 }
 
+
 void GraphicsEngine::DrawAlert(Point2& l1, Point2& l2, const float& radius)
 {
 	//straight lines along the side
@@ -290,4 +291,10 @@ void GraphicsEngine::DrawAlert(Point2& l1, Point2& l2, const float& radius)
 		int y = (int)(l2.y + radius * sin(i));
 		SDL_RenderDrawPoint(renderer, x, y);
 	}
+}
+void GraphicsEngine::lockWindow() {
+	SDL_LockSurface(SDL_GetWindowSurface(window));
+}
+void GraphicsEngine::unlockWindow() {
+	SDL_UnlockSurface(SDL_GetWindowSurface(window));
 }

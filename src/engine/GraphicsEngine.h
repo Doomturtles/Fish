@@ -115,6 +115,9 @@ class GraphicsEngine {
 		void setFullscreen(bool);
 		void setVerticalSync(bool);
 
+		void lockWindow();
+		void unlockWindow();
+
 		/**
 		* Shows a message box with given info and title
 		* 

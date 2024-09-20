@@ -55,8 +55,8 @@ Mover* Level::SpawnFish(Vector2f pos) {
 	creatures.push_back(newFish);
 	return newFish;
 }
-ImmovableCollider* Level::CreateBoundary(Vector2f pos, float size) {
-	Rock* newRock = new Rock(pos, size);
+ImmovableCollider* Level::CreateBoundary(Vector2f pos, int rockType) {
+	Rock* newRock = new Rock(pos, 1);
 	rocks.push_back(newRock);
 	return newRock;
 }

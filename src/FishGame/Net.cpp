@@ -36,5 +36,6 @@ void Net::Render(shared_ptr<GraphicsEngine> pgfx) {
 		SDL_Rect* src = new SDL_Rect{ 0, 0, 1500, 1000 };
 		SDL_Rect* dst = new SDL_Rect{ imagePos.x, imagePos.y, 50 ,50 };
 		pgfx->drawTexture(Media::Image("Fish"), src, dst, Vector2f::Vector2fToDegrees(*new Vector2f(posDifference.x, posDifference.y)));
+		
 	}
 }

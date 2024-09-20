@@ -23,7 +23,7 @@ public:
 	void CreateSplash(Point2 splashPos, int splashType);
 	Mover* SpawnFish(Vector2f pos);
 	void Render();
-	ImmovableCollider* CreateBoundary(Vector2f pos, float size);
+	ImmovableCollider* CreateBoundary(Vector2f pos, int rockType);
 	Enemy* CreateEnemy();
 };
 
