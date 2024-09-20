@@ -3,7 +3,7 @@
 #include "MyGame.h"
 using namespace std;
 struct Attack;
-class Net {
+class Net : ControllableCollider {
 private:
 	Point2 p1;
 	Point2 p2;

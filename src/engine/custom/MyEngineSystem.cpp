@@ -102,3 +102,18 @@ void Mover::Slow() { // used to calculate friction
 	velo = velo * friction;
 }
 
+ControllableCollider::ControllableCollider() {
+	currentOverlappingColliders = *new vector<Collider*>();
+}
+void ControllableCollider::SetCollider(Vector2f location, float radius) {
+	size = radius;
+	pos = location;
+}
+void ControllableCollider::UpdatePhysics(vector<Collider*> colliders) {
+	currentOverlappingColliders.clear();
+	for (Collider* c : colliders) {
+		if (c->Intersects(pos, size)) {
+			currentOverlappingColliders.push_back(c);
+		}
+	}
+}

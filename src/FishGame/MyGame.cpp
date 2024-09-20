@@ -5,7 +5,7 @@ MyGame::MyGame() : AbstractGame(){
 	TTF_Font* font = ResourceManager::loadFont("res/fonts/arial.ttf", 72);
 	gfx->useFont(font);
 	gfx->setVerticalSync(true);
-	level = new Level(gfx, *new Point2(350, 350));
+	level = new Level(gfx, mySystem, *new Point2(350, 350));
 	gfx->InitializeMedia();
 
 	float rockSize = 150;

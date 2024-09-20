@@ -10,6 +10,7 @@ class Collider;
 class MovableCollider;
 class ImmovableCollider;
 class Mover;
+class ControllableCollider;
 
 class MyEngineSystem {
 	friend class XCube2Engine;
@@ -62,6 +63,16 @@ public:
 	Mover(Vector2f pPos, float pSize, float pFriction, bool pBouncy = true, float bounceDamp =1, Vector2f pVelo = *(new Vector2f(0, 0)));
 	void UpdatePhysics(vector<Collider*> colliders) override;
 	void ApplyForce(Vector2f force);
+};
+class ControllableCollider : public Object { // gives complete control of handling when and what to collide with to the child
+private:
+	float size;
+protected:
+	void SetCollider(Vector2f location, float radius);
+	vector<Collider*> currentOverlappingColliders;
+public:
+	ControllableCollider();
+	void UpdatePhysics(vector<Collider*> colliders) override;
 };
 
 

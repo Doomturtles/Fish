@@ -5,7 +5,7 @@
 #include "Fish.h"
 #include "Rock.h"
 #include "Fisherman.h"
-Level::Level(shared_ptr<GraphicsEngine> pgfx, Point2 centrePoint) {
+Level::Level(shared_ptr<GraphicsEngine> pgfx, shared_ptr<MyEngineSystem> psystem, Point2 centrePoint) {
 	gfx = pgfx;
 	centre = centrePoint;
 }

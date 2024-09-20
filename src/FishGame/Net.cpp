@@ -1,6 +1,7 @@
 #include "Net.h"
 #include "Fisherman.h"
-Net::Net(Attack* attack) {
+#include "Fish.h"
+Net::Net(Attack* attack){
 	p1 = attack->attackStart;
 	p2 = attack->attackEnd;
 	stage = 0; // 0 = alert being shown
@@ -32,10 +33,13 @@ void Net::Render(shared_ptr<GraphicsEngine> pgfx) {
 		float netProgress = (timer - alertTime) / swipeTime;
 		Point2 posDifference = p2 - p1;
 		posDifference = posDifference * netProgress;
-		Point2 imagePos = (p1 + posDifference);
+		Point2 netPos = (p1 + posDifference);
 		SDL_Rect* src = new SDL_Rect{ 0, 0, 1500, 1000 };
-		SDL_Rect* dst = new SDL_Rect{ imagePos.x, imagePos.y, 50 ,50 };
+		SDL_Rect* dst = new SDL_Rect{ netPos.x, netPos.y, 50 ,50 };
 		pgfx->drawTexture(Media::Image("Fish"), src, dst, Vector2f::Vector2fToDegrees(*new Vector2f(posDifference.x, posDifference.y)));
-		
+		SetCollider(*new Vector2f(netPos.x, netPos.y), 100);
+		for (Collider* c : currentOverlappingColliders) {
+			//Problem: this currently only returns colliders, not movers
+		}
 	}
 }

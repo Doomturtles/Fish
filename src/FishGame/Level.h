@@ -15,9 +15,10 @@ private:
 	vector<Splash*> splashes;
 	vector<Rock*> rocks;
 	shared_ptr<GraphicsEngine> gfx;
+	shared_ptr<MyEngineSystem> system;
 	Point2 centre;
 public:
-	Level(shared_ptr<GraphicsEngine> pgfx, Point2 centrePoint);
+	Level(shared_ptr<GraphicsEngine> pgfx, shared_ptr<MyEngineSystem> psystem, Point2 centrePoint);
 	~Level();
 	void Update();
 	void CreateSplash(Point2 splashPos, int splashType);
