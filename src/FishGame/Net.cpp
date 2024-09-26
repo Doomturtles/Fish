@@ -1,13 +1,16 @@
 #include "Net.h"
 #include "Fisherman.h"
 #include "Fish.h"
-Net::Net(Attack* attack){
+#include "Level.h"
+Net::Net(Level* plevel, shared_ptr<MyEngineSystem> psystem, Attack* attack) {
 	p1 = attack->attackStart;
 	p2 = attack->attackEnd;
 	stage = 0; // 0 = alert being shown
 	timer = 0;
 	alertTime = 20;
 	swipeTime = 5;
+	mySystem = psystem;
+	level = plevel;
 }
 bool Net::IsDone() {
 	return stage == 3;
@@ -38,8 +41,15 @@ void Net::Render(shared_ptr<GraphicsEngine> pgfx) {
 		SDL_Rect* dst = new SDL_Rect{ netPos.x, netPos.y, 50 ,50 };
 		pgfx->drawTexture(Media::Image("Fish"), src, dst, Vector2f::Vector2fToDegrees(*new Vector2f(posDifference.x, posDifference.y)));
 		SetCollider(*new Vector2f(netPos.x, netPos.y), 100);
-		for (Collider* c : currentOverlappingColliders) {
-			//Problem: this currently only returns colliders, not movers
+		for (Object* o : currentOverlappingObjects) {
+			if (dynamic_cast<Creature*>(o)) {
+				//this means that the net intersected with a fish
+				//kill the fish
+				Creature* creatureToBeKilled = dynamic_cast<Creature*>(o);
+				mySystem->DeregisterObject(creatureToBeKilled);
+				level->Kill(creatureToBeKilled);
+				delete(creatureToBeKilled);
+			}
 		}
 	}
 }

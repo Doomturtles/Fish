@@ -16,8 +16,10 @@ private:
 	void InitiateAttack();
 	vector<Net*> currentNets;
 	float attackTimer;
+	shared_ptr<MyEngineSystem> mySystem;
+	Level* level;
 public:
-	Fisherman(vector<Attack*> pAttacks);
+	Fisherman(Level* plevel, shared_ptr<MyEngineSystem> psystem, vector<Attack*> pAttacks);
 	void Update(vector<Creature*>) override;
 	void Render(shared_ptr<GraphicsEngine> pgfx) override;
 };

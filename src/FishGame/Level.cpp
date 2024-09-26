@@ -5,9 +5,13 @@
 #include "Fish.h"
 #include "Rock.h"
 #include "Fisherman.h"
+#include <algorithm>
+#include <vector>
+using namespace std;
 Level::Level(shared_ptr<GraphicsEngine> pgfx, shared_ptr<MyEngineSystem> psystem, Point2 centrePoint) {
 	gfx = pgfx;
 	centre = centrePoint;
+	system = psystem;
 }
 Level::~Level() {
 	creatures.clear();
@@ -65,7 +69,7 @@ Enemy* Level::CreateEnemy() {
 	Attack* attack2 = new Attack{ *new Point2(300, 200), *new Point2(300, 300) };
 	Attack* attack3 = new Attack{ *new Point2(400, 200), *new Point2(400, 300) };
 	Attack* attack4 = new Attack{ *new Point2(500, 200), *new Point2(500, 300) };
-	Enemy* enemy = new Fisherman(*new vector<Attack*>{ attack1, attack2, attack3, attack4 });
+	Enemy* enemy = new Fisherman(this, system, *new vector<Attack*>{ attack1, attack2, attack3, attack4 });
 	enemies.push_back(enemy);
 	return enemy;
 }
@@ -86,4 +90,7 @@ void Level::Render() {
 	for (Rock* r : rocks) {
 		r->Render(gfx);
 	}
+}
+void Level::Kill(Creature* creature) {
+	creatures.erase(std::remove(creatures.begin(), creatures.end(), creature), creatures.end());
 }

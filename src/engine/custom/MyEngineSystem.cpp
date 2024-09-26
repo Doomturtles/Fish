@@ -8,6 +8,10 @@ void MyEngineSystem::Update()
 {
 	for (Object* o : objects) {
 		o->UpdatePhysics(colliders);
+		if (dynamic_cast<ControllableCollider*>(o)) {
+			ControllableCollider* OControllable = dynamic_cast<ControllableCollider*>(o);
+			OControllable->UpdatePhysicsAllObjects(objects);
+		}
 	}
 }
 
@@ -16,6 +20,13 @@ void MyEngineSystem::RegisterNewObject(Object* newObject)
 	objects.push_back(newObject);
 	if (dynamic_cast<Collider*>(newObject)) {
 		colliders.push_back(static_cast<Collider*>(newObject));
+	}
+}
+void MyEngineSystem::DeregisterObject(Object* oldObject) {
+	for (Object* o : objects) {
+		if (o == oldObject) {
+			objects.erase(std::remove(objects.begin(), objects.end(), o));
+		}
 	}
 }
 
@@ -103,17 +114,28 @@ void Mover::Slow() { // used to calculate friction
 }
 
 ControllableCollider::ControllableCollider() {
-	currentOverlappingColliders = *new vector<Collider*>();
+	currentOverlappingObjects = *new vector<Object*>();
+	size = 0;
 }
 void ControllableCollider::SetCollider(Vector2f location, float radius) {
 	size = radius;
 	pos = location;
 }
 void ControllableCollider::UpdatePhysics(vector<Collider*> colliders) {
-	currentOverlappingColliders.clear();
-	for (Collider* c : colliders) {
-		if (c->Intersects(pos, size)) {
-			currentOverlappingColliders.push_back(c);
+	//do nothing
+}
+void ControllableCollider::UpdatePhysicsAllObjects(vector<Object*> objects) { //needs to go through every object and see if it collides
+	currentOverlappingObjects.clear();
+	for (Object* o : objects) {
+		if (this->Intersects(o)) {
+			currentOverlappingObjects.push_back(o);
 		}
 	}
+}
+bool ControllableCollider::Intersects(Object* o) {
+	bool collides;
+	Vector2f* difference = o->pos - pos;
+	float dist = Vector2f::Magnitude(*difference);
+	collides = dist < o->size + size;
+	return collides;
 }

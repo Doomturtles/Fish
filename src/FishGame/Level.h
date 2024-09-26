@@ -26,5 +26,6 @@ public:
 	void Render();
 	ImmovableCollider* CreateBoundary(Vector2f pos, int rockType);
 	Enemy* CreateEnemy();
+	void Kill(Creature* creature);
 };
 

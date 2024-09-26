@@ -21,17 +21,17 @@ class MyEngineSystem {
 	public:
 		void Update();
 		void RegisterNewObject(Object* newObject);
+		void DeregisterObject(Object* oldObject);
 };
 class Object {
 protected:
-	Vector2f pos;
 	Point2 PosAsInt();
 public: 
+	float size;
+	Vector2f pos;
 	virtual void UpdatePhysics(vector<Collider*> colliders) = 0;
 };
 class Collider : public Object {
-protected:
-	float size;
 public:
 	Collider(Vector2f pos, float size);
 	bool Intersects(Vector2f pos, float size);
@@ -53,7 +53,6 @@ public:
 class Mover : public Object{ //things dont collide with this but it collides with things
 private:
 	bool bouncy;
-	float size;
 	float friction;
 	void Slow();
 protected:
@@ -65,14 +64,14 @@ public:
 	void ApplyForce(Vector2f force);
 };
 class ControllableCollider : public Object { // gives complete control of handling when and what to collide with to the child
-private:
-	float size;
 protected:
 	void SetCollider(Vector2f location, float radius);
-	vector<Collider*> currentOverlappingColliders;
+	vector<Object*> currentOverlappingObjects;
 public:
 	ControllableCollider();
 	void UpdatePhysics(vector<Collider*> colliders) override;
+	void UpdatePhysicsAllObjects(vector<Object*> objects);
+	bool Intersects(Object* o);
 };
 
 

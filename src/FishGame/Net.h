@@ -3,7 +3,7 @@
 #include "MyGame.h"
 using namespace std;
 struct Attack;
-class Net : ControllableCollider {
+class Net : public ControllableCollider {
 private:
 	Point2 p1;
 	Point2 p2;
@@ -11,8 +11,10 @@ private:
 	float timer;
 	float swipeTime;
 	float alertTime;
+	shared_ptr<MyEngineSystem> mySystem;
+	Level* level;
 public:
-	Net(Attack* attack);
+	Net(Level* plevel, shared_ptr<MyEngineSystem> psystem, Attack* attack);
 	bool IsDone();
 	void Render(shared_ptr<GraphicsEngine> pgfx);
 	void Update();

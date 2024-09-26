@@ -1,11 +1,15 @@
 #include "Fisherman.h"
 void Fisherman::InitiateAttack() {
 	Attack* currentAttack = attacks[(getRandom(0, attacks.size()))];
-	currentNets.push_back(new Net(currentAttack));
+	Net* newNet = new Net(level, mySystem, currentAttack);
+	currentNets.push_back(newNet);
+	mySystem->RegisterNewObject(newNet);
 }
-Fisherman::Fisherman(vector<Attack*> pAttacks) {
+Fisherman::Fisherman(Level* plevel, shared_ptr<MyEngineSystem> psystem, vector<Attack*> pAttacks) {
 	attacks = pAttacks;
 	attackTimer = 0;
+	mySystem = psystem;
+	level = plevel;
 }
 void Fisherman::Update(vector<Creature*> creatures) {
 	attackTimer += 0.1f;
