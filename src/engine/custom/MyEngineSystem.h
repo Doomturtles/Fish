@@ -9,6 +9,7 @@ class Object;
 class Collider;
 class MovableCollider;
 class ImmovableCollider;
+class InvertedImmovableCollider;
 class Mover;
 class ControllableCollider;
 
@@ -22,6 +23,7 @@ class MyEngineSystem {
 		void Update();
 		void RegisterNewObject(Object* newObject);
 		void DeregisterObject(Object* oldObject);
+		~MyEngineSystem();
 };
 class Object {
 protected:
@@ -34,7 +36,7 @@ public:
 class Collider : public Object {
 public:
 	Collider(Vector2f pos, float size);
-	bool Intersects(Vector2f pos, float size);
+	virtual bool Intersects(Vector2f pos, float size);
 };
 class MovableCollider : public Collider { //these are circles
 private:
@@ -49,6 +51,11 @@ private:
 public:
 	ImmovableCollider(Vector2f pos, float size);
 	void UpdatePhysics(vector<Collider*> colliders) override;
+};
+class InvertedImmovableCollider : public ImmovableCollider {
+public:
+	InvertedImmovableCollider(Vector2f pos, float size);
+	bool Intersects(Vector2f otherPos, float otherSize) override;
 };
 class Mover : public Object{ //things dont collide with this but it collides with things
 private:

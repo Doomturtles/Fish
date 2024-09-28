@@ -4,6 +4,7 @@
 #include "Splash.h"
 #include "Fish.h"
 #include "Rock.h"
+#include "PondBoundary.h"
 #include "Fisherman.h"
 #include <algorithm>
 #include <vector>
@@ -18,6 +19,7 @@ Level::~Level() {
 	enemies.clear();
 	splashes.clear();
 	rocks.clear();
+	boundaries.clear();
 }
 void Level::Update() {
 	//update creatures
@@ -64,6 +66,11 @@ ImmovableCollider* Level::CreateBoundary(Vector2f pos, int rockType) {
 	rocks.push_back(newRock);
 	return newRock;
 }
+InvertedImmovableCollider* Level::CreatePondBoundary(Vector2f pos, float size) {
+	PondBoundary* newBound = new PondBoundary(pos, size);
+	boundaries.push_back(newBound);
+	return newBound;
+}
 Enemy* Level::CreateEnemy() {
 	Attack* attack1 = new Attack{*new Point2(200, 200), *new Point2(200, 300)};
 	Attack* attack2 = new Attack{ *new Point2(300, 200), *new Point2(300, 300) };
@@ -89,6 +96,9 @@ void Level::Render() {
 	//render rocks
 	for (Rock* r : rocks) {
 		r->Render(gfx);
+	}
+	for (PondBoundary* pb : boundaries) {
+		pb->Render(gfx);
 	}
 }
 void Level::Kill(Creature* creature) {

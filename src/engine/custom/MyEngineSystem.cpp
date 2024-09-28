@@ -4,6 +4,10 @@
 MyEngineSystem::MyEngineSystem() {
 
 }
+MyEngineSystem::~MyEngineSystem() {
+	objects.clear();
+	colliders.clear();
+}
 void MyEngineSystem::Update()
 {
 	for (Object* o : objects) {
@@ -48,6 +52,15 @@ bool Collider::Intersects(Vector2f otherPos, float otherSize)
 
 ImmovableCollider::ImmovableCollider(Vector2f pos, float size) : Collider(pos, size){
 }
+InvertedImmovableCollider::InvertedImmovableCollider(Vector2f pos, float size) : ImmovableCollider(pos, size) {
+}
+bool InvertedImmovableCollider::Intersects(Vector2f otherPos, float otherSize)
+{
+	Vector2f* difference = pos - otherPos;
+	float distance = Vector2f::Magnitude(*difference);
+	return distance > (size + otherSize);
+}
+
 
 void ImmovableCollider::UpdatePhysics(vector<Collider*> colliders)
 {

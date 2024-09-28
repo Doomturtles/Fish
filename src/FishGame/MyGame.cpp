@@ -22,6 +22,7 @@ MyGame::MyGame() : AbstractGame(){
 	mySystem->RegisterNewObject(level->CreateBoundary(*new Vector2f(800, 300), 1));
 	mySystem->RegisterNewObject(level->CreateBoundary(*new Vector2f(800, 450), 1));
 	level->CreateEnemy();
+	mySystem->RegisterNewObject(level->CreatePondBoundary(*new Vector2f(400,200), 300));
 }
 
 MyGame::~MyGame() {

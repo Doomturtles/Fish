@@ -4,11 +4,15 @@ Fish::Fish(Vector2f fishPos, Point2 centrePoint) : Creature(fishPos, 30, 0.9f, t
 	maxCD = 10;
 	movementCD = 1;
 	centre = centrePoint;
+	dir = new Vector2f(0, 0);
+	dirSlow = new Vector2f(0, 0);
 }
 void Fish::Render(shared_ptr<GraphicsEngine> pgfx) {
-	SDL_Rect* src = new SDL_Rect{ 0, 0, 1500, 1000 };
-	SDL_Rect* dst = new SDL_Rect{(int)pos.x, (int)pos.y, 50, 50};
-	pgfx->drawTexture(Media::Image("Fish"), src, dst, Vector2f::Vector2fToDegrees(velo));
+	float numCircles = 5;
+	for (float i = -1; i < 1; i += (2 / numCircles)) {
+		Vector2f circlePos = pos + (*dir * i);
+		pgfx->drawCircle(*new Point2(circlePos.x, circlePos.y), 10);
+	}
 }
 void Fish::Update() {
 	movementCD -= 0.1f;
@@ -20,12 +24,15 @@ void Fish::Update() {
 
 void Fish::RandomMovement() {
 	//50/50 chance of either a completely random direction, or a direction pointing towards the centre
+	Vector2f movementDirection;
 	if (getRandom(1, 2) == 1) {
-		ApplyForce(*Vector2f::GetRandomNormalisedVector() * 10);
+		movementDirection = *Vector2f::GetRandomNormalisedVector() * 10;
 	}
 	else {
-		ApplyForce(*Vector2f::GetRandomNormalisedVectorPointingTowards(new Vector2f(pos.x, pos.y), new Vector2f(centre.x, centre.y)) * 10);
+		movementDirection = *Vector2f::GetRandomNormalisedVectorPointingTowards(new Vector2f(pos.x, pos.y), new Vector2f(centre.x, centre.y)) * 10;
 	}
+	dir = Vector2f::Normalise(movementDirection);
+	ApplyForce(movementDirection);
 }
 
 void Fish::AlertSplash(Point2 splashPos, int splashType) {

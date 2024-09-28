@@ -7,6 +7,7 @@ class Creature;
 class Enemy;
 class Splash;
 class Rock;
+class PondBoundary;
 class Level
 {
 private:
@@ -14,6 +15,7 @@ private:
 	vector<Enemy*> enemies; //should only ever be 1 but incase i want to do multi enemy levels later
 	vector<Splash*> splashes;
 	vector<Rock*> rocks;
+	vector<PondBoundary*> boundaries;
 	shared_ptr<GraphicsEngine> gfx;
 	shared_ptr<MyEngineSystem> system;
 	Point2 centre;
@@ -25,6 +27,7 @@ public:
 	Mover* SpawnFish(Vector2f pos);
 	void Render();
 	ImmovableCollider* CreateBoundary(Vector2f pos, int rockType);
+	InvertedImmovableCollider* CreatePondBoundary(Vector2f pos, float size);
 	Enemy* CreateEnemy();
 	void Kill(Creature* creature);
 };
