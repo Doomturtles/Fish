@@ -37,9 +37,7 @@ void Net::Render(shared_ptr<GraphicsEngine> pgfx) {
 		Point2 posDifference = p2 - p1;
 		posDifference = posDifference * netProgress;
 		Point2 netPos = (p1 + posDifference);
-		SDL_Rect* src = new SDL_Rect{ 0, 0, 1500, 1000 };
-		SDL_Rect* dst = new SDL_Rect{ netPos.x, netPos.y, 50 ,50 };
-		pgfx->drawTexture(Media::Image("Fish"), src, dst, Vector2f::Vector2fToDegrees(*new Vector2f(posDifference.x, posDifference.y)));
+		pgfx->drawCircle(*new Point2(netPos.x, netPos.y), 100);
 		SetCollider(*new Vector2f(netPos.x, netPos.y), 100);
 		for (Object* o : currentOverlappingObjects) {
 			if (o != nullptr) {
