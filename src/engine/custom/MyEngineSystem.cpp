@@ -30,10 +30,21 @@ void MyEngineSystem::DeregisterObject(Object* oldObject) {
 	for (Object* o : objects) {
 		if (o == oldObject) {
 			objects.erase(std::remove(objects.begin(), objects.end(), o));
+			if (dynamic_cast<Collider*>(o)) {
+				Collider* c = dynamic_cast<Collider*>(o);
+				colliders.erase(std::remove(colliders.begin(), colliders.end(), c));
+			}
 		}
 	}
 }
-
+bool MyEngineSystem::CollideAtPoint(Vector2f point) {
+	for (Collider* c : colliders) {
+		if (c->Intersects(point, 1)) {
+			return true;
+		}
+	}
+	return false;
+}
 Point2 Object::PosAsInt() {
 	return *new Point2((int)pos.x, (int)pos.y);
 }
@@ -52,13 +63,30 @@ bool Collider::Intersects(Vector2f otherPos, float otherSize)
 
 ImmovableCollider::ImmovableCollider(Vector2f pos, float size) : Collider(pos, size){
 }
-InvertedImmovableCollider::InvertedImmovableCollider(Vector2f pos, float size) : ImmovableCollider(pos, size) {
+InvertedImmovableCollider::InvertedImmovableCollider(vector<Vector2f*> ppositions, vector<float> psizes) : ImmovableCollider(*new Vector2f(0,0), 0){
+	positions = ppositions;
+	sizes = psizes;
 }
 bool InvertedImmovableCollider::Intersects(Vector2f otherPos, float otherSize)
 {
-	Vector2f* difference = pos - otherPos;
-	float distance = Vector2f::Magnitude(*difference);
-	return distance > (size + otherSize);
+	bool intersecting = true;
+	for (int i = 0; i < positions.size(); i++) {
+		Vector2f position = *positions[i];
+		float size = sizes[i];
+		Vector2f* difference = position - otherPos;
+		float distance = Vector2f::Magnitude(*difference);
+		if (distance > (size - otherSize)) {
+			// we take away othersize because the difference is the distance from the middle of
+			//this collider to the middle of the other collider, and we want to find if the point opposite to that line reaches the
+			//edge of this collider
+
+			//if this is the case, it is not inside this area, but could be another one
+		}
+		else {
+			intersecting = false;
+		}
+	}
+	return intersecting;
 }
 
 

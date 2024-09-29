@@ -62,25 +62,28 @@ Mover* Level::SpawnFish(Vector2f pos) {
 	return newFish;
 }
 ImmovableCollider* Level::CreateBoundary(Vector2f pos, int rockType) {
-	Rock* newRock = new Rock(pos, 1);
+	Rock* newRock = new Rock(pos, rockType);
 	rocks.push_back(newRock);
 	return newRock;
 }
-InvertedImmovableCollider* Level::CreatePondBoundary(Vector2f pos, float size) {
+InvertedImmovableCollider* Level::CreatePondBoundary(vector<Vector2f*> pos, vector<float> size) {
 	PondBoundary* newBound = new PondBoundary(pos, size);
 	boundaries.push_back(newBound);
 	return newBound;
 }
 Enemy* Level::CreateEnemy() {
-	Attack* attack1 = new Attack{*new Point2(200, 200), *new Point2(200, 300)};
-	Attack* attack2 = new Attack{ *new Point2(300, 200), *new Point2(300, 300) };
-	Attack* attack3 = new Attack{ *new Point2(400, 200), *new Point2(400, 300) };
-	Attack* attack4 = new Attack{ *new Point2(500, 200), *new Point2(500, 300) };
-	Enemy* enemy = new Fisherman(this, system, *new vector<Attack*>{ attack1, attack2, attack3, attack4 });
+	Enemy* enemy = new Fisherman(this, system, *new vector<Attack*>{
+		new Attack{ *new Point2(250, 200), *new Point2(250, 300)},
+		new Attack{*new Point2(150, 200), *new Point2(150, 300)},
+		new Attack{ *new Point2(400, 200), *new Point2(400, 300) } });
 	enemies.push_back(enemy);
 	return enemy;
 }
 void Level::Render() {
+	//render boundaries
+	for (PondBoundary* pb : boundaries) {
+		pb->Render(gfx);
+	}
 	//render creatures
 	for (Creature* c : creatures) {
 		c->Render(gfx);
@@ -97,8 +100,8 @@ void Level::Render() {
 	for (Rock* r : rocks) {
 		r->Render(gfx);
 	}
-	for (PondBoundary* pb : boundaries) {
-		pb->Render(gfx);
+	for (Enemy* e : enemies) {
+		e->Render(gfx);
 	}
 }
 void Level::Kill(Creature* creature) {

@@ -9,9 +9,16 @@ Fish::Fish(Vector2f fishPos, Point2 centrePoint) : Creature(fishPos, 30, 0.9f, t
 }
 void Fish::Render(shared_ptr<GraphicsEngine> pgfx) {
 	float numCircles = 5;
-	for (float i = -1; i < 1; i += (2 / numCircles)) {
-		Vector2f circlePos = pos + (*dir * i);
-		pgfx->drawCircle(*new Point2(circlePos.x, circlePos.y), 10);
+	float circleSpacing = 20;
+	for (float i = -1; i <= 1; i += (2 / numCircles)) {
+		Vector2f circlePos = pos + ((*dir * i) * 30);
+		pgfx->setDrawColor(SDL_COLOR_PINK);
+		if (i == 1) {
+			pgfx->DrawFilledCircle(circlePos.x, circlePos.y, 12);
+		}
+		else {
+			pgfx->DrawFilledCircle(circlePos.x, circlePos.y, 10);
+		}
 	}
 }
 void Fish::Update() {
@@ -42,12 +49,13 @@ void Fish::AlertSplash(Point2 splashPos, int splashType) {
 	float splashDistReciprocal = 1 / splashDist; //the reciprocal of the splash distance gets bigger the
 	//closer the splash was, so the fish gets more scared and moves more if the splash was closer
 	angle = Vector2f::Normalise(*angle);
+	dir = angle;
 	if (splashType == 1) {
 		ApplyForce(*angle * -0.1f * splashDistReciprocal); //move in the direction of the splash, inverted
 		//multiplied by the reciprocal of the distance so they move further if the splash was closer
 	}
 	else if (splashType == 2) {
-		ApplyForce(*angle * 0.1f * splashDistReciprocal); //move in the direction of the splash, inverted
-		//multiplied by the reciprocal of the distance so they move further if the splash was closer
+		ApplyForce(*angle * 0.1f * splashDist * 5000); //move in the direction of the splash, inverted
+		//multiplied by the splash distance so they move further if the splash was further
 	}
 }

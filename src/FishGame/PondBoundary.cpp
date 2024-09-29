@@ -1,7 +1,10 @@
 #include "PondBoundary.h"
-PondBoundary::PondBoundary(Vector2f pos, float size) : InvertedImmovableCollider(pos, size){
+PondBoundary::PondBoundary(vector<Vector2f*> pos, vector<float> size) : InvertedImmovableCollider(pos, size){
 }
 void PondBoundary::Render(shared_ptr<GraphicsEngine> pgfx) {
-	pgfx->setDrawColor(SDL_COLOR_VIOLET);
-	pgfx->drawCircle(*new Point2(pos.x, pos.y), size);
+	pgfx->setDrawColor(SDL_COLOR_AQUA);
+	for (int i = 0; i < positions.size(); i++) {
+		Vector2f pos = *positions[i];
+		pgfx->DrawFilledCircle(pos.x, pos.y, sizes[i]);
+	}
 }

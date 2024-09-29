@@ -23,6 +23,7 @@ class MyEngineSystem {
 		void Update();
 		void RegisterNewObject(Object* newObject);
 		void DeregisterObject(Object* oldObject);
+		bool CollideAtPoint(Vector2f point);
 		~MyEngineSystem();
 };
 class Object {
@@ -53,8 +54,12 @@ public:
 	void UpdatePhysics(vector<Collider*> colliders) override;
 };
 class InvertedImmovableCollider : public ImmovableCollider {
+private:
+protected:
+	vector<Vector2f*> positions;
+	vector<float> sizes;
 public:
-	InvertedImmovableCollider(Vector2f pos, float size);
+	InvertedImmovableCollider(vector<Vector2f*> positions, vector<float> sizes);
 	bool Intersects(Vector2f otherPos, float otherSize) override;
 };
 class Mover : public Object{ //things dont collide with this but it collides with things

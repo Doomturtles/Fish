@@ -27,7 +27,7 @@ public:
 	Mover* SpawnFish(Vector2f pos);
 	void Render();
 	ImmovableCollider* CreateBoundary(Vector2f pos, int rockType);
-	InvertedImmovableCollider* CreatePondBoundary(Vector2f pos, float size);
+	InvertedImmovableCollider* CreatePondBoundary(vector<Vector2f*> pos, vector<float> size);
 	Enemy* CreateEnemy();
 	void Kill(Creature* creature);
 };

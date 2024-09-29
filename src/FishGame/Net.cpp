@@ -42,13 +42,18 @@ void Net::Render(shared_ptr<GraphicsEngine> pgfx) {
 		pgfx->drawTexture(Media::Image("Fish"), src, dst, Vector2f::Vector2fToDegrees(*new Vector2f(posDifference.x, posDifference.y)));
 		SetCollider(*new Vector2f(netPos.x, netPos.y), 100);
 		for (Object* o : currentOverlappingObjects) {
-			if (dynamic_cast<Creature*>(o)) {
-				//this means that the net intersected with a fish
-				//kill the fish
-				Creature* creatureToBeKilled = dynamic_cast<Creature*>(o);
-				mySystem->DeregisterObject(creatureToBeKilled);
-				level->Kill(creatureToBeKilled);
-				delete(creatureToBeKilled);
+			if (o != nullptr) {
+				//break
+				if (dynamic_cast<Creature*>(o)) {
+					//this means that the net intersected with a fish
+					//kill the fish
+					Creature* creatureToBeKilled = dynamic_cast<Creature*>(o);
+					mySystem->DeregisterObject(creatureToBeKilled);
+					level->Kill(creatureToBeKilled);
+					currentOverlappingObjects.erase(std::remove(currentOverlappingObjects.begin(), currentOverlappingObjects.end(), creatureToBeKilled));
+					delete(creatureToBeKilled);
+					break; //this means only one fish can be deleted per frame but stops errors
+				}
 			}
 		}
 	}

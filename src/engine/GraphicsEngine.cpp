@@ -122,6 +122,12 @@ void GraphicsEngine::clearScreen() {
 	SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, 255);	// may need to be adjusted for allowing alpha
 }
 
+void GraphicsEngine::clearScreen(SDL_Color color) {
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, drawColor.r, drawColor.g, drawColor.b, 255);	// may need to be adjusted for allowing alpha
+}
+
 void GraphicsEngine::showScreen() {
 	SDL_RenderPresent(renderer);
 }
@@ -290,6 +296,36 @@ void GraphicsEngine::DrawAlert(Point2& l1, Point2& l2, const float& radius)
 		int x = (int)(l2.x + radius * cos(i));
 		int y = (int)(l2.y + radius * sin(i));
 		SDL_RenderDrawPoint(renderer, x, y);
+	}
+}
+void GraphicsEngine::DrawFilledCircle(int x, int y, int radius)
+{ 
+	for (float i = radius; i > (0-radius); i--) { //iterate from +radius to -radius
+		float height = y + i;
+		double angle = SDL_asin(i / radius);
+		float width = SDL_cos(angle) * radius;
+		SDL_RenderDrawLine(renderer, x - width, height, x + width, height);// draw a line from the left edge to the right edge of the circle at that height
+	}
+}
+void GraphicsEngine::DrawInvertedCircle(int x, int y, int innerRadius, int outerRadius) {
+
+	for (float i = outerRadius; i > (0 - outerRadius); i--) { //iterate from +radius to -radius
+		float height = y + i;
+		//this handles lines above the inner circle
+		if (i > innerRadius || i < (0 -innerRadius)) {
+			double angle = SDL_asin(i / outerRadius);
+			float width = SDL_cos(angle) * outerRadius;
+			SDL_RenderDrawLine(renderer, x - width, height, x + width, height);// draw a line from the left edge to the right edge of the circle at that height
+		}
+		//this handles lines where the inner circle needs to be avoided
+		else {
+			double angle = SDL_asin(i / outerRadius);
+			float width = SDL_cos(angle) * outerRadius;
+			double innerAngle = SDL_asin(i / innerRadius);
+			float innerWidth = SDL_cos(innerAngle) * innerRadius;
+			SDL_RenderDrawLine(renderer, x - width, height, x - innerWidth, height);// draw a line from the left outer edge to left inner edge
+			SDL_RenderDrawLine(renderer, x + innerWidth, height, x + width, height);// draw a line from the right outer edge to right inner edge
+		}
 	}
 }
 void GraphicsEngine::lockWindow() {

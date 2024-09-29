@@ -73,6 +73,7 @@ class GraphicsEngine {
 		* Call this before drawing anything to screen
 		*/
 		void clearScreen();
+		void clearScreen(SDL_Color color);
 
 		/**
 		* Displays everything rendered on the screen
@@ -101,6 +102,9 @@ class GraphicsEngine {
 
 		void DrawAlert(Point2& l1, Point2& l2, const float& radius); //custom function to
 		//draw a dotted line, a radius around a line between 2 points, l1 and l2
+
+		void DrawFilledCircle(int x, int y, int radius);
+		void DrawInvertedCircle(int x, int y, int innerRadius, int outerRadius);
 
 		void setDrawColor(const SDL_Color &);
 		void setDrawScale(const Vector2f &);	// not tested

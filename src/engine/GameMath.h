@@ -45,9 +45,7 @@ struct Vector2f {
 		return *new Vector2f(x + v.x, y+ v.y);
 	}
 	Vector2f& operator*(const float& f) {
-		x *= f;
-		y *= f;
-		return *this;
+		return *new Vector2f(x * f, y * f);
 	}
 	Vector2f* operator-(const Vector2f& v) {
 		float newx = x - v.x;

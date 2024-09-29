@@ -3,17 +3,17 @@
 Rock::Rock(Vector2f pos, const int rockType) : ImmovableCollider(pos, size){
 	switch (rockType) {
 	case 1:
-		size = 150;
-		rockTexture = Media::Image("Fish");
+		size = 190;
+		break;
+	case 2:
+		size = 50;
 		break;
 	default:
-		size = 159;
-		rockTexture = Media::Image("Fish");
+		size = 20;
 		break;
 	}
 }
 void Rock::Render(shared_ptr<GraphicsEngine> pgfx) {
-	SDL_Rect* src = new SDL_Rect{0, 0, 1500, 1000};
-	SDL_Rect* dst = new SDL_Rect{ (int)pos.x - (int)size/2, (int)pos.y - (int)size / 2, (int)size, (int)size};
-	pgfx->drawTexture(rockTexture, src, dst);
+	pgfx->setDrawColor(SDL_COLOR_GRAY);
+	pgfx->DrawFilledCircle(pos.x, pos.y, size);
 }

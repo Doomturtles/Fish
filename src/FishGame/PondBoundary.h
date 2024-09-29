@@ -2,7 +2,7 @@
 #include "MyGame.h"
 class PondBoundary : public InvertedImmovableCollider {
 public:
-	PondBoundary(Vector2f ppos, float psize);
+	PondBoundary(vector<Vector2f*> pos, vector<float> size);
 	void Render(shared_ptr<GraphicsEngine> pgfx);
 };
 
